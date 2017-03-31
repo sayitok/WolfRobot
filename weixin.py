@@ -783,7 +783,7 @@ class WebWeixin(object):
             if msgType == 1:
                 raw_msg = {'raw_msg': msg}
                 self._showMsg(raw_msg)
-                if self.autoReplyMode
+                if self.autoReplyMode:
                     self._forwardMsg(msg)
 #自己加的代码-------------------------------------------#
                 #if self.autoReplyRevokeMode:
