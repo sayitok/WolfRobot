@@ -680,6 +680,7 @@ class WebWeixin(object):
     # 转发到tomcat处理
     def _forwardMsg(self,message):
         host = '%s?m=member&para=%s' % (self.myRemoteServer,'message')
+        logging.debug('req='+host)
         r = requests.get(host)
         ans = r.json()
         
