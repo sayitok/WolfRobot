@@ -673,9 +673,9 @@ class WebWeixin(object):
         return None
 
     def _forwardMember(self) :
-        host = self.myRemoteServer + '?m=member&para=' + json.dumps(self.MemberList)
+        host = self.myRemoteServer + '?m=member&para=' # + json.dumps(self.MemberList)
         r = requests.get(host)
-        logging.debug(r.json())
+        logging.debug(r.text)
 
     # 转发到tomcat处理
     def _forwardMsg(self,message):
