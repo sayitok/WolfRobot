@@ -673,22 +673,29 @@ class WebWeixin(object):
         return None
 
     def _forwardMember(self) :
-        host = '%s?m=ls&para=%s' % (self.myRemoteServer,'test')# + json.dumps(self.MemberList)
-        r = requests.get(host)
-        logging.debug(r.text)
+        try:
+            host = '%s?m=ls&para=%s' % (self.myRemoteServer,'test')# + json.dumps(self.MemberList)
+            r = requests.get(host)
+            logging.debug(r.text)
+        except Exception:
+            import traceback
+            logging.error('generic exception: ' + traceback.format_exc())
 
     # 转发到tomcat处理
     def _forwardMsg(self,message):
-        host = '%s?m=msg&para=%s' % (self.myRemoteServer,message)
-        logging.debug('req='+host)
-        r = requests.get(host)
-        ans = r.json()
+        try:
+            host = '%s?m=msg&para=%s' % (self.myRemoteServer,message)
+            r = requests.get(host)
+            ans = r.json()
         
-        if ans['code'] == 100:
-            return ans['content']
-        else:
-            logging.error('发生错误啦:'+ans['msg'])
-            return '你在缩什么，风太大听不见'
+            if ans['code'] == 100:
+                return ans['content']
+            else:
+                logging.error('发生错误啦:'+ans['msg'])
+                return '你在缩什么，风太大听不见'
+        except Exception:
+            import traceback
+            logging.error('generic exception: ' + traceback.format_exc())
 
     def _showMsg(self, message):
 
