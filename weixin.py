@@ -684,9 +684,9 @@ class WebWeixin(object):
         ans = r.json()
         
         if ans['code'] == 100:
-            return ans['msg']
+            return ans['content']
         else:
-            logging.error('发生错误啦:'+ans['content'])
+            logging.error('发生错误啦:'+ans['msg'])
             return '你在缩什么，风太大听不见'
 
     def _showMsg(self, message):
