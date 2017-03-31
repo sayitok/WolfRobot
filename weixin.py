@@ -673,14 +673,14 @@ class WebWeixin(object):
         return None
 
     def _forwardMember(self) :
-        host = self.myRemoteServer + '?m=member&para=' # + json.dumps(self.MemberList)
+        host = '%s?m=member&para=%s' % (self.myRemoteServer,'test')# + json.dumps(self.MemberList)
         logging.debug(host)
         r = requests.get(host)
         logging.debug(r.text)
 
     # 转发到tomcat处理
     def _forwardMsg(self,message):
-        host = self.myRemoteServer + '?m=msg&para=' + message 
+        host = '%s?m=member&para=%s' % (self.myRemoteServer,'message')
         r = requests.get(host)
         ans = r.json()
         
@@ -783,7 +783,8 @@ class WebWeixin(object):
             if msgType == 1:
                 raw_msg = {'raw_msg': msg}
                 self._showMsg(raw_msg)
-                self._forwardMsg(msg)
+                if self.autoReplyMode
+                    self._forwardMsg(msg)
 #自己加的代码-------------------------------------------#
                 #if self.autoReplyRevokeMode:
                 #    store
