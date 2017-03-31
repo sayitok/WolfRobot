@@ -300,7 +300,7 @@ class WebWeixin(object):
             elif Contact['UserName'] == self.User['UserName']:  # 自己
                 ContactList.remove(Contact)
         self.ContactList = ContactList
-        self._forwardContract()
+        self._forwardMember()
         return True
 
     def webwxbatchgetcontact(self):
