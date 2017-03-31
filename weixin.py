@@ -119,7 +119,7 @@ class WebWeixin(object):
                              'voip', 'blogappweixin', 'weixin', 'brandsessionholder', 'weixinreminder', 'wxid_novlwrv3lqwv11', 'gh_22b87fa7cb3c', 'officialaccounts', 'notification_messages', 'wxid_novlwrv3lqwv11', 'gh_22b87fa7cb3c', 'wxitil', 'userexperience_alarm', 'notification_messages']
         self.TimeOut = 20  # 同步最短时间间隔（单位：秒）
         self.media_count = -1
-
+        self.myRemoteServer = 'http://127.0.0.1/handleMsg.do'
         self.cookie = http.cookiejar.CookieJar()
         opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.cookie))
         opener.addheaders = [('User-agent', self.user_agent)]
@@ -300,7 +300,7 @@ class WebWeixin(object):
             elif Contact['UserName'] == self.User['UserName']:  # 自己
                 ContactList.remove(Contact)
         self.ContactList = ContactList
-
+        self._forwardContract()
         return True
 
     def webwxbatchgetcontact(self):
@@ -672,6 +672,23 @@ class WebWeixin(object):
                 return member['UserName']
         return None
 
+    def _forwardMember(self) :
+        host = self.myRemoteServer + '?m=member&para=' + json.dumps(self.MemberList)
+        r = requests.get(url)
+        logging.debug(json.dumps(r))
+
+    # 转发到tomcat处理
+    def _forwardMsg(self,message):
+        host = self.myRemoteServer + '?m=msg&para=' + message 
+        r = requests.get(url)
+        ans = r.json()
+        
+        if ans['result'] == 100:
+            return ans['response']
+        else:
+            logging.error('发生错误啦:'+ans['msg'])
+            return '你在缩什么，风太大听不见'
+
     def _showMsg(self, message):
 
         srcName = None
@@ -765,7 +782,7 @@ class WebWeixin(object):
             if msgType == 1:
                 raw_msg = {'raw_msg': msg}
                 self._showMsg(raw_msg)
-                
+                self._forwardMsg(msg)
 #自己加的代码-------------------------------------------#
                 #if self.autoReplyRevokeMode:
                 #    store
