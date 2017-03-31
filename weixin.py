@@ -674,7 +674,6 @@ class WebWeixin(object):
 
     def _forwardMember(self) :
         host = '%s?m=member&para=%s' % (self.myRemoteServer,'test')# + json.dumps(self.MemberList)
-        logging.debug(host)
         r = requests.get(host)
         logging.debug(r.text)
 
@@ -684,10 +683,10 @@ class WebWeixin(object):
         r = requests.get(host)
         ans = r.json()
         
-        if ans['result'] == 100:
-            return ans['response']
+        if ans['code'] == 100:
+            return ans['msg']
         else:
-            logging.error('发生错误啦:'+ans['msg'])
+            logging.error('发生错误啦:'+ans['content'])
             return '你在缩什么，风太大听不见'
 
     def _showMsg(self, message):
