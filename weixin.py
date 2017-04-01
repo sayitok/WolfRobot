@@ -798,7 +798,7 @@ class WebWeixin(object):
                     self.robotAgent = 1
                 elif content == '小黄鸡走开':
                     self.robotAgent = 0
-                elif content == '统统散开':
+                elif content == '我要你':
                     self.autoReplyMode = False
                 elif content == '泥奏凯':
                     self.autoReplyMode = True
