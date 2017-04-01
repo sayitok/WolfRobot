@@ -700,6 +700,7 @@ class WebWeixin(object):
         except Exception:
             import traceback
             logging.error('generic exception: ' + traceback.format_exc())
+            return '你讲啥子耶，风太大听不到'
 
     def _showMsg(self, message):
 
