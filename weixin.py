@@ -793,7 +793,11 @@ class WebWeixin(object):
             if msgType == 1:
                 raw_msg = {'raw_msg': msg}
                 self._showMsg(raw_msg)
-                if self.autoReplyMode and self.robotAgent == 1:
+                if content == '我爱小黄鸡':
+                    self.robotAgent = 1
+                elif content == '小黄鸡走开':
+                    self.robotAgent = 0
+                if self.autoReplyMode:
                     ret = self._forwardMsg(msg)
                     if ret != '101':
                         if self.webwxsendmsg(ret, msg['FromUserName']):
