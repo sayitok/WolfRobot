@@ -300,7 +300,7 @@ class WebWeixin(object):
             elif Contact['UserName'] == self.User['UserName']:  # 自己
                 ContactList.remove(Contact)
         self.ContactList = ContactList
-        self._forwardMember()
+        #self._forwardMember()
         return True
 
     def webwxbatchgetcontact(self):
@@ -684,7 +684,8 @@ class WebWeixin(object):
     # 转发到tomcat处理
     def _forwardMsg(self,message):
         try:
-            host = '%s?m=msg&para=%s' % (self.myRemoteServer,message)
+            fromName = self.getUserRemarkName(message['FromUserName'])
+            host = '%s?m=msg&para=%s&name=%s' % (self.myRemoteServer,message,fromName)
             r = requests.get(host)
             ans = r.json()
         
@@ -797,7 +798,7 @@ class WebWeixin(object):
                     self.robotAgent = 1
                 elif content == '小黄鸡走开':
                     self.robotAgent = 0
-                if self.autoReplyMode:
+                if self.autoReplyMode and self.robotAgent==1:
                     ret = self._forwardMsg(msg)
                     if ret != '101':
                         if self.webwxsendmsg(ret, msg['FromUserName']):
