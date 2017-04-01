@@ -690,6 +690,9 @@ class WebWeixin(object):
         
             if ans['code'] == 100:
                 return ans['content']
+            elif ans['code'] == 101:
+                logging.error('群消息或黑名单')
+                return '你在缩什么，风太大听不见'
             else:
                 logging.error('发生错误啦:'+ans['msg'])
                 return '你在缩什么，风太大听不见'
