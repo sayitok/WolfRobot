@@ -692,7 +692,7 @@ class WebWeixin(object):
                 return ans['content']
             elif ans['code'] == 101:
                 logging.error('群消息或黑名单')
-                return '你在缩什么，风太大听不见'
+                return '101'
             else:
                 logging.error('发生错误啦:'+ans['msg'])
                 return '你在缩什么，风太大听不见'
@@ -793,18 +793,17 @@ class WebWeixin(object):
             if msgType == 1:
                 raw_msg = {'raw_msg': msg}
                 self._showMsg(raw_msg)
-                if self.autoReplyMode:
-                    self._forwardMsg(msg)
-#自己加的代码-------------------------------------------#
-                #if self.autoReplyRevokeMode:
-                #    store
-#自己加的代码-------------------------------------------#
-                if self.autoReplyMode and msg['FromUserName'][:2] != '@@':
-                    if content == '我爱小黄鸡':
-                        self.robotAgent = 1
-                    elif content == '小黄鸡走开':
-                        self.robotAgent = 0
-                    ans = "风太大我听不见"
+                if self.autoReplyMode and self.robotAgent == 1:
+                    ret = self._forwardMsg(msg)
+                    if ret != '101'
+                        if self.webwxsendmsg(ret, msg['FromUserName']):
+                            print(ret)
+                        else:
+                            print('自动回复失败')
+                            logging.info('自动回复失败')
+                    else:
+                        logging.info('群消息不回复')
+                elif self.autoReplyMode and msg['FromUserName'][:2] != '@@':
                     if self.robotAgent == 1:
                         ans = self._simsimi(content)
                     else:
@@ -814,6 +813,25 @@ class WebWeixin(object):
                     else:
                         #print('自动回复失败')
                         logging.info('自动回复失败')
+#自己加的代码-------------------------------------------#
+                #if self.autoReplyRevokeMode:
+                #    store
+#自己加的代码-------------------------------------------#
+                #if self.autoReplyMode and msg['FromUserName'][:2] != '@@':
+                #    if content == '我爱小黄鸡':
+                #        self.robotAgent = 1
+                #    elif content == '小黄鸡走开':
+                #        self.robotAgent = 0
+                #    ans = "风太大我听不见"
+                #    if self.robotAgent == 1:
+                #        ans = self._simsimi(content)
+                #    else:
+                #        ans = self._douqq(content)
+                #    if self.webwxsendmsg(ans, msg['FromUserName']):
+                #        print(ans)
+                #    else:
+                        #print('自动回复失败')
+                #        logging.info('自动回复失败')
             elif msgType == 3:
                 image = self.webwxgetmsgimg(msgid)
                 raw_msg = {'raw_msg': msg,
