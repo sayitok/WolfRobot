@@ -798,6 +798,11 @@ class WebWeixin(object):
                     self.robotAgent = 1
                 elif content == '小黄鸡走开':
                     self.robotAgent = 0
+                elif content == '统统散开':
+                    self.autoReplyMode = False
+                elif content == '泥奏凯':
+                    self.autoReplyMode = True
+
                 if self.autoReplyMode and msg['FromUserName'][:2] != '@@' and self.robotAgent == 1:
                     ret = self._forwardMsg(msg)
                     if ret != '101':
